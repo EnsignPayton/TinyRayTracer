@@ -5,14 +5,16 @@ namespace Tiny.RayTracer.Core
 {
     public class Sphere
     {
-        public Sphere(Vector3 center, float radius)
+        public Sphere(Vector3 center, float radius, Material material)
         {
             Center = center;
             Radius = radius;
+            Material = material;
         }
 
         public Vector3 Center { get; }
         public float Radius { get; }
+        public Material Material { get; }
 
         // See http://www.lighthouse3d.com/tutorials/maths/ray-sphere-intersection/
         public bool Intersects(Ray ray, out float distance)

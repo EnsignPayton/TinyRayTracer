@@ -17,8 +17,7 @@ namespace Tiny.RayTracer.CLI
             var renderer = new FlatRenderer
             {
                 FieldOfView = MathF.PI / 2.0f,
-                Sphere = new Sphere(new Vector3(-3.0f, 0.0f, -16.0f), 2.0f),
-                ForegroundColor = new Vector3(0.2f, 0.7f, 0.8f),
+                Sphere = new Sphere(new Vector3(-3.0f, 0.0f, -16.0f), 2.0f, new Material(new Vector3(0.2f, 0.7f, 0.8f), Vector3.Zero, 0.0f)),
                 BackgroundColor = new Vector3(0.4f, 0.4f, 0.3f)
             };
 
