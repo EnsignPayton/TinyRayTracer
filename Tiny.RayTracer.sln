@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiny.RayTracer.Core", "Tiny.RayTracer.Core\Tiny.RayTracer.Core.csproj", "{28ACA461-A03E-40F6-822B-1E1C3ECCC588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiny.RayTracer.Test", "Tiny.RayTracer.Test\Tiny.RayTracer.Test.csproj", "{DC23F47F-E629-4C6B-8C63-2D6729D82E89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiny.RayTracer.CLI", "Tiny.RayTracer.CLI\Tiny.RayTracer.CLI.csproj", "{F7055849-EE5A-420D-89DE-0FF58E60F9B5}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28ACA461-A03E-40F6-822B-1E1C3ECCC588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28ACA461-A03E-40F6-822B-1E1C3ECCC588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28ACA461-A03E-40F6-822B-1E1C3ECCC588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28ACA461-A03E-40F6-822B-1E1C3ECCC588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC23F47F-E629-4C6B-8C63-2D6729D82E89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC23F47F-E629-4C6B-8C63-2D6729D82E89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC23F47F-E629-4C6B-8C63-2D6729D82E89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC23F47F-E629-4C6B-8C63-2D6729D82E89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7055849-EE5A-420D-89DE-0FF58E60F9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7055849-EE5A-420D-89DE-0FF58E60F9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7055849-EE5A-420D-89DE-0FF58E60F9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7055849-EE5A-420D-89DE-0FF58E60F9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
