@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Tiny.RayTracer.Core;
 
 namespace Tiny.RayTracer.CLI
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Console.WriteLine("Hello World!");
+            const int width = 1024;
+            const int height = 768;
+            const string filePath = "./out.ppm";
+
+            var frameBuffer = new FrameBuffer(width, height);
+            var pptWriter = new PPMWriter();
+            pptWriter.Write(frameBuffer, filePath);
         }
     }
 }
