@@ -18,11 +18,5 @@ namespace Tiny.RayTracer.Core
         {
             return MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z);
         }
-
-        public static float DistanceTo(this Vector3 a, Vector3 b)
-        {
-            var difference = a - b;
-            return MathF.Abs(difference.Magnitude());
-        }
     }
 }

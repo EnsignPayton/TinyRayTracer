@@ -26,10 +26,16 @@ namespace Tiny.RayTracer.CLI
                 new Sphere(new Vector3(7.0f, 5.0f, -18.0f), 4.0f, ivory),
             };
 
-            var renderer = new FlatRenderer
+            var lights = new[]
+            {
+                new PointLight(new Vector3(-20.0f, 20.0f, 20.0f), 1.5f),
+            };
+
+            var renderer = new LightedRenderer
             {
                 FieldOfView = MathF.PI / 2.0f,
                 Spheres = spheres,
+                Lights = lights,
                 BackgroundColor = new Vector3(0.2f, 0.7f, 0.8f)
             };
 

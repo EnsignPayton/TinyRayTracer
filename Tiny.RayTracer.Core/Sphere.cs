@@ -27,7 +27,7 @@ namespace Tiny.RayTracer.Core
             var projectedCenter = translatedCenter.ProjectOnto(ray.Direction);
 
             // Distance from the sphere's center to its projection point
-            var projectedDistance = Center.DistanceTo(projectedCenter);
+            var projectedDistance = Vector3.Distance(Center, projectedCenter);
             if (projectedDistance > Radius)
             {
                 // Projection point lies outside the sphere, therefore no intersection
