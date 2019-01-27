@@ -22,11 +22,10 @@ namespace Tiny.RayTracer.Core
         public int Width { get; }
         public int Height { get; }
 
-        public byte[] GetBytes()
+        public Vector3[] GetBuffer()
         {
             return _buffer
                 .Select(AdjustBrightness)
-                .SelectMany(GetVectorBytes)
                 .ToArray();
         }
 
@@ -34,27 +33,8 @@ namespace Tiny.RayTracer.Core
         {
             var max1 = MathF.Max(vector.X, vector.Y);
             var max2 = MathF.Max(vector.Z, max1);
-            return max2 > 1.0f ? vector / max2 : vector;
-        }
-
-        private static byte[] GetVectorBytes(Vector3 vector)
-        {
-            return new[]
-            {
-                GetFloatByte(vector.X),
-                GetFloatByte(vector.Y),
-                GetFloatByte(vector.Z),
-            };
-        }
-
-        private static byte GetFloatByte(float value)
-        {
-            return (byte) (255 * Clamp(value, 0.0f, 1.0f));
-        }
-
-        private static float Clamp(float value, float lower, float upper)
-        {
-            return MathF.Min(upper, MathF.Max(lower, value));
+            var scaled = max2 > 1.0f ? vector / max2 : vector;
+            return Vector3.Clamp(scaled, Vector3.Zero, Vector3.One);
         }
 
         public void Fill(int x, int y, Vector3 pixel)
