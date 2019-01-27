@@ -9,14 +9,14 @@ namespace Tiny.RayTracer.CLI
     {
         private static void Main()
         {
-            const int width = 1024;
+            const int width = 768;
             const int height = 768;
             const string filePath = "./out.ppm";
 
             var frameBuffer = new FrameBuffer(width, height);
 
-            var ivory = new Material(new Vector3(0.4f, 0.4f, 0.3f), Vector3.Zero, 0.0f);
-            var rubber = new Material(new Vector3(0.3f, 0.1f, 0.1f), Vector3.Zero, 0.0f);
+            var ivory = new Material(new Vector3(0.4f, 0.4f, 0.3f), new Vector3(0.6f, 0.3f, 0.0f), 50.0f);
+            var rubber = new Material(new Vector3(0.3f, 0.1f, 0.1f), new Vector3(0.9f, 0.1f, 0.0f), 10.0f);
 
             var spheres = new[]
             {
@@ -29,6 +29,8 @@ namespace Tiny.RayTracer.CLI
             var lights = new[]
             {
                 new PointLight(new Vector3(-20.0f, 20.0f, 20.0f), 1.5f),
+                new PointLight(new Vector3(30.0f, 50.0f, -25.0f), 1.8f),
+                new PointLight(new Vector3(30.0f, 20.0f, 30.0f), 1.7f),
             };
 
             var renderer = new LightedRenderer

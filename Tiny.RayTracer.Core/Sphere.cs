@@ -31,7 +31,7 @@ namespace Tiny.RayTracer.Core
             if (projectedDistance > Radius)
             {
                 // Projection point lies outside the sphere, therefore no intersection
-                distance = 0.0f;
+                distance = float.MaxValue;
                 return false;
             }
 
@@ -57,6 +57,27 @@ namespace Tiny.RayTracer.Core
             // Sphere is behind ray
             distance = secondPoint;
             return false;
+        }
+
+        // See https://github.com/ssloy/tinyraytracer/wiki
+        //TODO: Fix the readable function to behave like this copy-pasted one
+        public bool TestIntersects(Ray ray, out float distance)
+        {
+            var L = Center - ray.Origin;
+            float tca = Vector3.Dot(L, ray.Direction);
+            float d2 = Vector3.Dot(L, L) - tca * tca;
+            if (d2 > Radius * Radius)
+            {
+                distance = float.MaxValue;
+                return false;
+            }
+
+            float thc = MathF.Sqrt(Radius * Radius - d2);
+            distance = tca - thc;
+            float t1 = tca + thc;
+            if (distance < 0) distance = t1;
+            if (distance < 0) return false;
+            return true;
         }
     }
 }
