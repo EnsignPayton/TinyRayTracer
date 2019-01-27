@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Numerics;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using Tiny.RayTracer.Core;
 using Tiny.RayTracer.Core.Rendering;
 
@@ -46,8 +50,36 @@ namespace Tiny.RayTracer.CLI
 
             renderer.Render(frameBuffer);
 
-            var ppmWriter = new PPMWriter();
-            ppmWriter.Write(frameBuffer, filePath);
+            SaveImage(frameBuffer, filePath);
+        }
+
+        private static void SaveImage(FrameBuffer frameBuffer, string filePath)
+        {
+            using (var image = new Image<Rgb24>(frameBuffer.Width, frameBuffer.Height))
+            {
+                var buffer = frameBuffer.GetBuffer().Select(vector =>
+                {
+                    var x = (byte) (255 * vector.X);
+                    var y = (byte) (255 * vector.Y);
+                    var z = (byte) (255 * vector.Z);
+                    return new Rgb24(x, y, z);
+
+                }).ToList();
+
+                for (int x = 0; x < frameBuffer.Width; x++)
+                {
+                    for (int y = 0; y < frameBuffer.Height; y++)
+                    {
+                        var i = x + y * frameBuffer.Width;
+                        image[x, y] = buffer[i];
+                    }
+                }
+
+                using (var fs = File.OpenWrite(filePath))
+                {
+                    image.SaveAsPng(fs);
+                }
+            }
         }
     }
 }
