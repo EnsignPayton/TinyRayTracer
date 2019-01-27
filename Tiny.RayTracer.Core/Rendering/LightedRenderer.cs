@@ -10,13 +10,21 @@ namespace Tiny.RayTracer.Core.Rendering
         public IList<Sphere> Spheres { get; set; }
         public IList<PointLight> Lights { get; set; }
         public Vector3 BackgroundColor { get; set; }
+        public int MaxReflectionDepth { get; set; }
 
         protected override Vector3 Cast(Ray ray)
         {
-            if (!SceneIntersect(ray, out var hit, out var material))
+            return Cast(ray, 0);
+        }
+
+        private Vector3 Cast(Ray ray, int depth)
+        {
+            if (depth > MaxReflectionDepth || !SceneIntersect(ray, out var hit, out var material))
             {
                 return BackgroundColor;
             }
+
+            var reflectiveColor = Reflect(ray, hit, depth);
 
             var lights = Lights
                 .Where(light => !IsInShadow(light, hit))
@@ -27,8 +35,9 @@ namespace Tiny.RayTracer.Core.Rendering
 
             var diffuseComponent = material.DiffuseColor * diffuseIntensity * material.Albedo.X;
             var specularComponent = Vector3.One * specularIntensity * material.Albedo.Y;
+            var reflectiveComponent = reflectiveColor * material.Albedo.Z;
 
-            return diffuseComponent + specularComponent;
+            return diffuseComponent + specularComponent + reflectiveComponent;
         }
 
         private bool SceneIntersect(Ray ray, out Ray hit, out Material material)
@@ -54,13 +63,25 @@ namespace Tiny.RayTracer.Core.Rendering
             return intersectionDistance < 1000.0f;
         }
 
+        private Vector3 Reflect(Ray ray, Ray hit, int depth)
+        {
+            var direction = Vector3.Normalize(Vector3.Reflect(ray.Direction, hit.Direction));
+            var origin = LiftOff(direction, hit);
+            return Cast(new Ray(origin, direction), depth + 1);
+        }
+
+        private static Vector3 LiftOff(Vector3 direction, Ray hit)
+        {
+            return Vector3.Dot(direction, hit.Direction) < 0.0f
+                ? hit.Origin - hit.Direction * 0.001f
+                : hit.Origin + hit.Direction * 0.001f;
+        }
+
         private bool IsInShadow(PointLight light, Ray hit)
         {
             var direction = Vector3.Normalize(light.Position - hit.Origin);
             var distance = Vector3.Distance(light.Position, hit.Origin);
-            var origin = Vector3.Dot(direction, hit.Direction) < 0.0f
-                ? hit.Origin - hit.Direction * 0.001f
-                : hit.Origin + hit.Direction * 0.001f;
+            var origin = LiftOff(direction, hit);
 
             return SceneIntersect(new Ray(origin, direction), out var hit2, out _) &&
                    Vector3.Distance(hit2.Origin, origin) < distance;
