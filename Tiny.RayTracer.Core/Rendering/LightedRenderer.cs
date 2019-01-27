@@ -66,20 +66,10 @@ namespace Tiny.RayTracer.Core.Rendering
                    Vector3.Distance(hit2.Origin, origin) < distance;
         }
 
-        private float DiffuseIntensity(Ray hit)
-        {
-            return Lights.Sum(light => DiffuseIntensity(light, hit));
-        }
-
         private static float DiffuseIntensity(PointLight light, Ray hit)
         {
             var direction = Vector3.Normalize(light.Position - hit.Origin);
             return light.Intensity * MathF.Max(0.0f, Vector3.Dot(direction, hit.Direction));
-        }
-
-        private float SpecularIntensity(Ray ray, Ray hit, Material material)
-        {
-            return Lights.Sum(light => SpecularIntensity(light, ray, hit, material));
         }
 
         private static float SpecularIntensity(PointLight light, Ray ray, Ray hit, Material material)
