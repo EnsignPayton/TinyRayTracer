@@ -25,6 +25,7 @@ namespace Tiny.RayTracer.Core.Rendering
             }
 
             var reflectiveColor = Reflect(ray, hit, depth);
+            var refractiveColor = Refract(ray, hit, material, depth);
 
             var lights = Lights
                 .Where(light => !IsInShadow(light, hit))
@@ -36,8 +37,9 @@ namespace Tiny.RayTracer.Core.Rendering
             var diffuseComponent = material.DiffuseColor * diffuseIntensity * material.Albedo.X;
             var specularComponent = Vector3.One * specularIntensity * material.Albedo.Y;
             var reflectiveComponent = reflectiveColor * material.Albedo.Z;
+            var refractiveComponent = refractiveColor * material.Albedo.W;
 
-            return diffuseComponent + specularComponent + reflectiveComponent;
+            return diffuseComponent + specularComponent + reflectiveComponent + refractiveComponent;
         }
 
         private bool SceneIntersect(Ray ray, out Ray hit, out Material material)
@@ -75,6 +77,13 @@ namespace Tiny.RayTracer.Core.Rendering
             return Vector3.Dot(direction, hit.Direction) < 0.0f
                 ? hit.Origin - hit.Direction * 0.001f
                 : hit.Origin + hit.Direction * 0.001f;
+        }
+
+        private Vector3 Refract(Ray ray, Ray hit, Material material, int depth)
+        {
+            var direction = Vector3.Normalize(ray.Direction.Refract(hit.Direction, material.RefractiveIndex));
+            var origin = LiftOff(direction, hit);
+            return Cast(new Ray(origin, direction), depth + 1);
         }
 
         private bool IsInShadow(PointLight light, Ray hit)
