@@ -46,8 +46,8 @@ namespace Tiny.RayTracer.CLI
 
             renderer.Render(frameBuffer);
 
-            var pptWriter = new PPMWriter();
-            pptWriter.Write(frameBuffer, filePath);
+            var ppmWriter = new PPMWriter();
+            ppmWriter.Write(frameBuffer, filePath);
         }
     }
 }
