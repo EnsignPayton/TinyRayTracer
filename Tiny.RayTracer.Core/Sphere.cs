@@ -63,21 +63,22 @@ namespace Tiny.RayTracer.Core
         //TODO: Fix the readable function to behave like this copy-pasted one
         public bool TestIntersects(Ray ray, out float distance)
         {
-            var L = Center - ray.Origin;
-            float tca = Vector3.Dot(L, ray.Direction);
-            float d2 = Vector3.Dot(L, L) - tca * tca;
-            if (d2 > Radius * Radius)
+            var translatedCenter = Center - ray.Origin;
+            float distanceToProjection = Vector3.Dot(translatedCenter, ray.Direction);
+            float distanceSquared = Vector3.Dot(translatedCenter, translatedCenter) -
+                       distanceToProjection * distanceToProjection;
+            if (distanceSquared > Radius * Radius)
             {
                 distance = float.MaxValue;
                 return false;
             }
 
-            float thc = MathF.Sqrt(Radius * Radius - d2);
-            distance = tca - thc;
-            float t1 = tca + thc;
-            if (distance < 0) distance = t1;
-            if (distance < 0) return false;
-            return true;
+            float offset = MathF.Sqrt(Radius * Radius - distanceSquared);
+            distance = distanceToProjection - offset < 0
+                ? distanceToProjection + offset
+                : distanceToProjection - offset;
+
+            return distance >= 0;
         }
     }
 }
