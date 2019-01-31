@@ -42,6 +42,7 @@ namespace Tiny.RayTracer.CLI
             var renderer = new LightedRenderer
             {
                 FieldOfView = MathF.PI / 2.0f,
+                Camera = new Ray(Vector3.Zero, Vector3.Zero),
                 Spheres = spheres,
                 Lights = lights,
                 BackgroundColor = new Vector3(0.2f, 0.7f, 0.8f),

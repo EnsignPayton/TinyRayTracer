@@ -6,6 +6,7 @@ namespace Tiny.RayTracer.Core.Rendering
     public abstract class RayTracingRenderer : Renderer
     {
         public float FieldOfView { get; set; }
+        public Ray Camera { get; set; } = new Ray(Vector3.Zero, Vector3.Zero);
 
         public override void Render(FrameBuffer frameBuffer)
         {
@@ -24,7 +25,9 @@ namespace Tiny.RayTracer.Core.Rendering
 
                     // Image is projected onto the z = -1 plane
                     var direction = Vector3.Normalize(new Vector3(x, y, -1.0f));
-                    var ray = new Ray(Vector3.Zero, direction);
+
+                    // TODO: Factor in rotation
+                    var ray = new Ray(Camera.Origin, direction);
 
                     var color = Cast(ray);
 
