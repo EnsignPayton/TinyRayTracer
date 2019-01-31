@@ -15,7 +15,7 @@ namespace Tiny.RayTracer.CLI
         {
             const int width = 768;
             const int height = 768;
-            const string filePath = "./out.ppm";
+            const string filePath = "./out.png";
 
             var frameBuffer = new FrameBuffer(width, height);
 
