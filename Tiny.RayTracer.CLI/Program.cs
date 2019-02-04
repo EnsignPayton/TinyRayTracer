@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -18,9 +19,23 @@ namespace Tiny.RayTracer.CLI
             const string filePath = "./out.png";
 
             var frameBuffer = new FrameBuffer(width, height);
+            var renderer = GetRenderer();
 
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            renderer.Render(frameBuffer);
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+
+            SaveImage(frameBuffer, filePath);
+
+            Console.Read();
+        }
+
+        private static RayTracingRenderer GetRenderer()
+        {
             var ivory = new Material(new Vector3(0.4f, 0.4f, 0.3f), new Vector4(0.6f, 0.3f, 0.1f, 0.0f), 50.0f, 1.0f);
-            var glass = new Material(new Vector3( 0.6f, 0.7f, 0.8f), new Vector4(0.0f, 0.5f, 0.1f, 0.8f), 125.0f, 1.5f);
+            var glass = new Material(new Vector3(0.6f, 0.7f, 0.8f), new Vector4(0.0f, 0.5f, 0.1f, 0.8f), 125.0f, 1.5f);
             var rubber = new Material(new Vector3(0.3f, 0.1f, 0.1f), new Vector4(0.9f, 0.1f, 0.0f, 0.0f), 10.0f, 1.0f);
             var mirror = new Material(Vector3.One, new Vector4(0.0f, 10.0f, 0.8f, 0.0f), 1425.0f, 1.0f);
 
@@ -49,9 +64,7 @@ namespace Tiny.RayTracer.CLI
                 MaxReflectionDepth = 4,
             };
 
-            renderer.Render(frameBuffer);
-
-            SaveImage(frameBuffer, filePath);
+            return renderer;
         }
 
         private static void SaveImage(FrameBuffer frameBuffer, string filePath)
